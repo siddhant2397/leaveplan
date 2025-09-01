@@ -28,11 +28,11 @@ collection = db["leave_plans"]
 st.title("Team Leave Planning Tool (MongoDB + Calendar)")
 
 with st.form("Add Leave Plan"):
-    name = st.text_input("Your Name")
-    start_date = st.date_input("Leave Start Date", min_value=date.today())
-    end_date = st.date_input("Leave End Date", min_value=start_date)
-    leave_type = st.selectbox("Type of Leave", ["CL", "EL", "PL", "ML","Other(Mention in Reason)"])
-    reason = st.text_area("Reason / Notes")
+    name = st.text_input("Your Name", key = "name_input")
+    start_date = st.date_input("Leave Start Date", min_value=date.today(), key="start_date_input")
+    end_date = st.date_input("Leave End Date", min_value=start_date, key="end_date_input")
+    leave_type = st.selectbox("Type of Leave", ["CL", "EL", "PL", "ML","Other(Mention in Reason)"], key="leave_type_input")
+    reason = st.text_area("Reason / Notes", key="reason_input")
     submit = st.form_submit_button("Submit")
 
     if submit and name:
@@ -44,6 +44,12 @@ with st.form("Add Leave Plan"):
             "reason": reason
         })
         st.success("Leave plan added!")
+        st.session_state["name_input"] = ""
+        st.session_state["start_date_input"] = pd.Timestamp.today()
+        st.session_state["end_date_input"] = pd.Timestamp.today()
+        st.session_state["leave_type_input"] = "CL"
+        st.session_state["reason_input"] = ""
+
 
 # Fetch all leave plans
 leave_plans = list(collection.find({}))
