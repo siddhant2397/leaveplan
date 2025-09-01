@@ -24,6 +24,14 @@ client = MongoClient(MONGO_URI)
 db = client["mongo_db"]
 collection = db["leave_plans"]
 
+def clear_form():
+    st.session_state.name_input = ""
+    st.session_state.start_date_input = pd.Timestamp.today()
+    st.session_state.end_date_input = pd.Timestamp.today()
+    st.session_state.leave_type_input = "CL"
+    st.session_state.reason_input = ""
+
+
 
 st.title("Team Leave Planning Tool (MongoDB + Calendar)")
 
@@ -44,11 +52,7 @@ with st.form("Add Leave Plan"):
             "reason": reason
         })
         st.success("Leave plan added!")
-        st.session_state["name_input"] = ""
-        st.session_state["start_date_input"] = pd.Timestamp.today()
-        st.session_state["end_date_input"] = pd.Timestamp.today()
-        st.session_state["leave_type_input"] = "CL"
-        st.session_state["reason_input"] = ""
+        clear_form()
 
 
 # Fetch all leave plans
