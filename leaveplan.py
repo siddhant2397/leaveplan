@@ -57,7 +57,7 @@ if leave_plans:
         start = pd.to_datetime(row["start_date"])
         end = pd.to_datetime(row["end_date"])
         for single_date in pd.date_range(start=start, end=end):
-            leave_by_date[single_date.strftime("%Y-%m-%d")].append(row["name"])
+            leave_by_date[single_date.strftime("%Y-%m-%d")].append((row["name"], row["reason"]))
 
 
 
@@ -81,7 +81,9 @@ if leave_plans:
     selected_date_str = selected_date.strftime("%Y-%m-%d")
     if selected_date_str in leave_by_date:
         st.write(f"People on leave on {selected_date_str}:")
-        for person in leave_by_date[selected_date_str]:
-            st.write(f"- {person}")
+        for name, reason in leave_by_date[selected_date_str]:
+            st.write(f"- {name}:{reason}")
+    else:
+        st.write(f"No one is on leave on {selected_date_str}.")
 else:
     st.info("No leave plans submitted yet.")
