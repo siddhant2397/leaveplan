@@ -33,7 +33,7 @@ def clear_form():
 
 
 
-st.title("Team Leave Planning Tool (MongoDB + Calendar)")
+st.title("Leave Planning")
 
 with st.form("Add Leave Plan"):
     name = st.text_input("Your Name", key = "name_input")
