@@ -14,7 +14,7 @@ from pymongo import MongoClient
 from streamlit_calendar import calendar
 
 # Load MongoDB connection details securely from .streamlit/secrets.toml
-MONGO_URI = "mongodb://localhost:27017"  # Change to your MongoDB URI
+MONGO_URI = st.secrets["MONGO_URI"]  # Change to your MongoDB URI
 
 
 # Connect to MongoDB
@@ -28,7 +28,7 @@ with st.form("Add Leave Plan"):
     name = st.text_input("Your Name")
     start_date = st.date_input("Leave Start Date", min_value=date.today())
     end_date = st.date_input("Leave End Date", min_value=start_date)
-    leave_type = st.selectbox("Type of Leave", ["Annual", "Personal", "Sick", "Other"])
+    leave_type = st.selectbox("Type of Leave", ["CL", "EL", "PL", "ML","Other(Mention in Reason)"])
     reason = st.text_area("Reason / Notes")
     submit = st.form_submit_button("Submit")
 
