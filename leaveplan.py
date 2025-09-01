@@ -60,21 +60,36 @@ if leave_plans:
     df = df.drop(columns=["_id"]) if "_id" in df.columns else df
     st.subheader("All Planned Leaves")
     st.dataframe(df)
+    leave_by_date = defaultdict(list)
+    for _, row in df.iterrows():
+        start = pd.to_datetime(row["start_date"])
+        end = pd.to_datetime(row["end_date"])
+        for single_date in pd.date_range(start=start, end=end):
+            leave_by_date[single_date.strftime("%Y-%m-%d")].append(row["name"])
+
+
 
     # Format for calendar
     calendar_events = [
         {
-            "title": f'{row["name"]} - {row["type"]}',
-            "start": row["start_date"],
-            "end": get_exclusive_end(row["end_date"]),
-            "color": string_to_color(row["name"]),
+            "title": f"{len(names)} people on leave",
+            "start": date,
+            "end": date,
+            "color": "red",
         }
-        for _, row in df.iterrows()
+        for date, names in leave_by_date.items()
     ]
+
     cal_options = {
         "initialView": "dayGridMonth",
         "editable": False,
     }
     calendar(events=calendar_events, options=cal_options, key="leave_calendar")
+    selected_date = st.date_input("Select a date to see who is on leave")
+    selected_date_str = selected_date.strftime("%Y-%m-%d")
+    if selected_date_str in leave_by_date:
+        st.write(f"People on leave on {selected_date_str}:")
+        for person in leave_by_date[selected_date_str]:
+            st.write(f"- {person}")
 else:
     st.info("No leave plans submitted yet.")
