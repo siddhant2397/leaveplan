@@ -1,6 +1,7 @@
 streamlit
-streamlit-calender
+streamlit-calendar
 pandas
 openpyxl
 datetime
 pymongo
+
