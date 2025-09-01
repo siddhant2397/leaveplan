@@ -12,7 +12,8 @@ import pandas as pd
 from datetime import date
 from pymongo import MongoClient
 from streamlit_calendar import calendar
-import hashlib
+from collections import defaultdict
+
 
 # Load MongoDB connection details securely from .streamlit/secrets.toml
 MONGO_URI = st.secrets["MONGO_URI"]  # Change to your MongoDB URI
@@ -22,15 +23,6 @@ MONGO_URI = st.secrets["MONGO_URI"]  # Change to your MongoDB URI
 client = MongoClient(MONGO_URI)
 db = client["mongo_db"]
 collection = db["leave_plans"]
-
-def string_to_color(s):
-    hash_object = hashlib.md5(s.encode())
-    return "#" + hash_object.hexdigest()[:6]
-
-def get_exclusive_end(date_string):
-    # Converts end date to the next day (exclusive end)
-    return (pd.to_datetime(date_string) + pd.Timedelta(days=1)).strftime('%Y-%m-%d')
-
 
 
 st.title("Team Leave Planning Tool (MongoDB + Calendar)")
