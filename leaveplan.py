@@ -27,6 +27,11 @@ def string_to_color(s):
     hash_object = hashlib.md5(s.encode())
     return "#" + hash_object.hexdigest()[:6]
 
+def get_exclusive_end(date_string):
+    # Converts end date to the next day (exclusive end)
+    return (pd.to_datetime(date_string) + pd.Timedelta(days=1)).strftime('%Y-%m-%d')
+
+
 
 st.title("Team Leave Planning Tool (MongoDB + Calendar)")
 
@@ -61,7 +66,7 @@ if leave_plans:
         {
             "title": f'{row["name"]} - {row["type"]}',
             "start": row["start_date"],
-            "end": row["end_date"],
+            "end": get_exclusive_end(row["end_date"]),
             "color": string_to_color(row["name"]),
         }
         for _, row in df.iterrows()
