@@ -62,7 +62,7 @@ if leave_plans:
             "title": f'{row["name"]} - {row["type"]}',
             "start": row["start_date"],
             "end": row["end_date"],
-            "color": string_to_color(row["Name"]),
+            "color": string_to_color(row["name"]),
         }
         for _, row in df.iterrows()
     ]
