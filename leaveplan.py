@@ -34,6 +34,10 @@ def login():
 
 # Require login first
 login()
+if st.button("Logout"):
+    st.session_state.logged_in = False
+    st.rerun()  # Refresh app to show login again
+
 
 
 
