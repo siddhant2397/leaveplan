@@ -19,7 +19,7 @@ MONGO_URI = st.secrets["MONGO_URI"]  # Change to your MongoDB URI
 
 # Connect to MongoDB
 client = MongoClient(MONGO_URI)
-db = client[mongo_db]
+db = client["mongo_db"]
 collection = db["leave_plans"]
 
 st.title("Team Leave Planning Tool (MongoDB + Calendar)")
