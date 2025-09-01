@@ -14,6 +14,27 @@ from pymongo import MongoClient
 from streamlit_calendar import calendar
 from collections import defaultdict
 
+users = st.secrets["users"]
+def login():
+    if "logged_in" not in st.session_state:
+        st.session_state.logged_in = False
+    if not st.session_state.logged_in:
+        st.title("Login")
+        username = st.text_input("Username", key="login_username")
+        password = st.text_input("Password", type="password", key="login_password")
+        if st.button("Login"):
+            if username in users and users[username] == password:
+                st.session_state.logged_in = True
+                st.session_state.username = username
+                st.experimental_rerun()
+            else:
+                st.error("Invalid username or password")
+        st.stop()
+
+# Require login first
+login()
+
+
 
 # Load MongoDB connection details securely from .streamlit/secrets.toml
 MONGO_URI = st.secrets["MONGO_URI"]  # Change to your MongoDB URI
