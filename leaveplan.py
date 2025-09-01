@@ -63,6 +63,7 @@ st.title("Leave Planning")
 
 with st.form("Add Leave Plan"):
     name = st.text_input("Your Name", key = "name_input")
+    service_number = st.text_input("Service Number", key = "service_number")
     start_date = st.date_input("Leave Start Date", min_value=date.today(), key="start_date_input")
     end_date = st.date_input("Leave End Date", min_value=start_date, key="end_date_input")
     leave_type = st.selectbox("Type of Leave", ["CL", "EL", "PL", "ML","Other(Mention in Reason)"], key="leave_type_input")
@@ -72,6 +73,7 @@ with st.form("Add Leave Plan"):
     if submit and name:
         collection.insert_one({
             "name": name,
+            "service_number": service_number,
             "start_date": str(start_date),
             "end_date": str(end_date),
             "type": leave_type,
@@ -92,7 +94,7 @@ if leave_plans:
         start = pd.to_datetime(row["start_date"])
         end = pd.to_datetime(row["end_date"])
         for single_date in pd.date_range(start=start, end=end):
-            leave_by_date[single_date.strftime("%Y-%m-%d")].append((row["name"], row["reason"]))
+            leave_by_date[single_date.strftime("%Y-%m-%d")].append((row["name"],row["service_number"], row["reason"]))
 
 
 
@@ -116,8 +118,8 @@ if leave_plans:
     selected_date_str = selected_date.strftime("%Y-%m-%d")
     if selected_date_str in leave_by_date:
         st.write(f"People on leave on {selected_date_str}:")
-        for name, reason in leave_by_date[selected_date_str]:
-            st.write(f"- {name}:{reason}")
+        for name, service_number, reason in leave_by_date[selected_date_str]:
+            st.write(f"- {name}:{service_number}(Reason:{reason})")
     else:
         st.write(f"No one is on leave on {selected_date_str}.")
 else:
