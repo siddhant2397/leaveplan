@@ -52,7 +52,6 @@ with st.form("Add Leave Plan"):
             "reason": reason
         })
         st.success("Leave plan added!")
-        clear_form()
 
 
 # Fetch all leave plans
