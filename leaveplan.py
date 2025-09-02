@@ -101,7 +101,7 @@ if leave_plans:
     # Format for calendar
     calendar_events = [
         {
-            "title": f"{len(names)} people on leave",
+            "title": f"{len(names)} people for leave",
             "start": date,
             "end": date,
             "color": "red",
@@ -114,13 +114,13 @@ if leave_plans:
         "editable": False,
     }
     calendar(events=calendar_events, options=cal_options, key="leave_calendar")
-    selected_date = st.date_input("Select a date to see who is on leave")
+    selected_date = st.date_input("Select a date to see who is for leave")
     selected_date_str = selected_date.strftime("%Y-%m-%d")
     if selected_date_str in leave_by_date:
-        st.write(f"People on leave on {selected_date_str}:")
+        st.write(f"People for leave on {selected_date_str}:")
         for name, service_number, reason in leave_by_date[selected_date_str]:
             st.write(f"- {name}:{service_number}(Reason:{reason})")
     else:
-        st.write(f"No one is on leave on {selected_date_str}.")
+        st.write(f"No one is for leave on {selected_date_str}.")
 else:
     st.info("No leave plans submitted yet.")
