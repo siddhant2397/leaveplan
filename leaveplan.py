@@ -28,7 +28,6 @@ def login():
                 st.session_state.username = username
                 st.rerun()
             else:
-                st.write(users)
                 st.error("Invalid username or password")
         st.stop()
 
